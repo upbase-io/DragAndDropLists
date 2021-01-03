@@ -208,6 +208,7 @@ class ProgrammaticExpansionTileState extends State<ProgrammaticExpansionTile>
           ListTileTheme.merge(
             iconColor: _iconColor.value,
             textColor: _headerColor.value,
+            contentPadding: EdgeInsets.symmetric(horizontal: 8),
             child: ListTile(
               onTap: toggle,
               leading: widget.leading,
@@ -226,7 +227,7 @@ class ProgrammaticExpansionTileState extends State<ProgrammaticExpansionTile>
               trailing: widget.trailing ??
                   RotationTransition(
                     turns: _iconTurns,
-                    child: const Icon(Icons.expand_more),
+                    child: const Icon(Icons.expand_more,size: 28,color: Color(0xff18203A)),
                   ),
             ),
           ),
