@@ -103,7 +103,7 @@ class ProgrammaticExpansionTileState extends State<ProgrammaticExpansionTile>
   static final Animatable<double> _easeInTween =
       CurveTween(curve: Curves.easeIn);
   static final Animatable<double> _halfTween =
-      Tween<double>(begin: 0.0, end: 0.5);
+      Tween<double>(begin: 0.25, end: 0.5);
 
   final ColorTween _borderColorTween = ColorTween();
   final ColorTween _headerColorTween = ColorTween();
@@ -211,7 +211,16 @@ class ProgrammaticExpansionTileState extends State<ProgrammaticExpansionTile>
             child: ListTile(
               onTap: toggle,
               leading: widget.leading,
-              title: widget.title,
+              title: Row(
+                children: [
+                  RotationTransition(
+                    turns: _iconTurns,
+                    child: const Icon(Icons.expand_less),
+                  ),
+                  const SizedBox(width: 4,),
+                  widget.title,
+                ],
+              ),
               subtitle: widget.subtitle,
               isThreeLine: widget.isThreeLine,
               trailing: widget.trailing ??
