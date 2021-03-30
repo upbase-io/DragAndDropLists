@@ -40,6 +40,7 @@ class ProgrammaticExpansionTile extends StatefulWidget {
     this.trailing,
     this.initiallyExpanded = false,
     this.disableTopAndBottomBorders = false,
+    this.collapseTrailing,
   })  : assert(initiallyExpanded != null),
         assert(listKey != null),
         assert(key != null),
@@ -90,6 +91,8 @@ class ProgrammaticExpansionTile extends StatefulWidget {
 
   /// Disable to borders displayed at the top and bottom when expanded
   final bool disableTopAndBottomBorders;
+
+  final Widget collapseTrailing;
 
   @override
   ProgrammaticExpansionTileState createState() =>
@@ -212,23 +215,15 @@ class ProgrammaticExpansionTileState extends State<ProgrammaticExpansionTile>
             child: ListTile(
               onTap: toggle,
               leading: widget.leading,
-              title: Row(
-                children: [
-                  RotationTransition(
-                    turns: _iconTurns,
-                    child: const Icon(Icons.expand_less),
-                  ),
-                  const SizedBox(width: 4,),
-                  widget.title,
-                ],
-              ),
+              title: widget.title,
               subtitle: widget.subtitle,
               isThreeLine: widget.isThreeLine,
-              trailing: widget.trailing ??
-                  RotationTransition(
-                    turns: _iconTurns,
-                    child: const Icon(Icons.expand_more,size: 28,color: Color(0xff18203A)),
-                  ),
+              // trailing: widget.trailing ??
+              //     RotationTransition(
+              //       turns: _iconTurns,
+              //       child: const Icon(Icons.expand_more,size: 28,color: Color(0xff18203A)),
+              //     ),
+              trailing: _isExpanded ? widget.trailing : widget.collapseTrailing,
             ),
           ),
           ClipRect(

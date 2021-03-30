@@ -16,6 +16,7 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
   final Widget title;
   final Widget subtitle;
   final Widget trailing;
+  final Widget collapseTrailing;
   final Widget leading;
   final bool initiallyExpanded;
 
@@ -56,6 +57,7 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
     this.listKey,
     this.canDrag = true,
     this.disableTopAndBottomBorders = false,
+    this.collapseTrailing,
   }) : assert(listKey != null) {
     _expanded.value = initiallyExpanded;
   }
@@ -76,6 +78,7 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
       onExpansionChanged: _onSetExpansion,
       key: _expansionKey,
       children: contents,
+      collapseTrailing: collapseTrailing,
     );
 
     if (params.listDecoration != null) {

@@ -68,10 +68,13 @@ class _ListTileExample extends State<ExpansionTileExample> {
     return DragAndDropListExpansion(
       title: Text('List ${innerList.name}'),
       subtitle: Text('Subtitle ${innerList.name}'),
-      leading: Icon(Icons.ac_unit),
+      // leading: Icon(Icons.ac_unit),
       children: List.generate(innerList.children.length,
           (index) => _buildItem(innerList.children[index])),
       listKey: ObjectKey(innerList),
+      trailing: Icon(Icons.add),
+      collapseTrailing: Text('${innerList?.children?.length ?? 0}'),
+      initiallyExpanded: true
     );
   }
 
