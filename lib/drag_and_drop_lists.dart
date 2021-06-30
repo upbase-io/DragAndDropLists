@@ -496,6 +496,7 @@ class DragAndDropListsState extends State<DragAndDropLists> {
     return ListView(
       scrollDirection: widget.axis,
       controller: _scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
       children: _buildOuterList(dragAndDropListTarget, parameters),
     );
   }
