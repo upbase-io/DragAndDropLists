@@ -13,11 +13,10 @@ typedef void OnExpansionChanged(bool expanded);
 
 /// This class mirrors flutter's [ExpansionTile], with similar options.
 class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
-  final Widget title;
-  final Widget subtitle;
-  final Widget trailing;
-  final Widget collapseTrailing;
-  final Widget leading;
+  final Widget? title;
+  final Widget? subtitle;
+  final Widget? trailing;
+  final Widget? leading;
   final bool initiallyExpanded;
 
   /// Set this to a unique key that will remain unchanged over the lifetime of the list.
@@ -25,11 +24,12 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
   final Key listKey;
 
   /// This function will be called when the expansion of a tile is changed.
-  final OnExpansionChanged onExpansionChanged;
-  final Color backgroundColor;
-  final List<DragAndDropItem> children;
-  final Widget contentsWhenEmpty;
-  final Widget lastTarget;
+  final OnExpansionChanged? onExpansionChanged;
+  final Color? backgroundColor;
+  final List<DragAndDropItem>? children;
+  final Widget? contentsWhenEmpty;
+  final Widget? lastTarget;
+  final Widget? collapseTrailing;
 
   /// Whether or not this item can be dragged.
   /// Set to true if it can be reordered.
@@ -54,11 +54,11 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
     this.onExpansionChanged,
     this.contentsWhenEmpty,
     this.lastTarget,
-    this.listKey,
+    required this.listKey,
     this.canDrag = true,
     this.disableTopAndBottomBorders = false,
     this.collapseTrailing,
-  }) : assert(listKey != null) {
+  }) {
     _expanded.value = initiallyExpanded;
   }
 
@@ -78,7 +78,6 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
       onExpansionChanged: _onSetExpansion,
       key: _expansionKey,
       children: contents,
-      collapseTrailing: collapseTrailing,
     );
 
     if (params.listDecoration != null) {
@@ -90,7 +89,7 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
 
     if (params.listPadding != null) {
       expandable = Padding(
-        padding: params.listPadding,
+        padding: params.listPadding!,
         child: expandable,
       );
     }
@@ -98,31 +97,29 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
     Widget toReturn = ValueListenableBuilder(
       valueListenable: _expanded,
       child: expandable,
-      builder: (context, error, child) {
+      builder: (context, dynamic error, child) {
         if (!_expanded.value) {
-          return Stack(
-            children: <Widget>[
-              child,
-              Positioned.fill(
-                child: DragTarget<DragAndDropItem>(
-                  builder: (context, candidateData, rejectedData) {
-                    if (candidateData != null && candidateData.isNotEmpty) {}
-                    return Container();
-                  },
-                  onWillAccept: (incoming) {
-                    _startExpansionTimer();
-                    return false;
-                  },
-                  onLeave: (incoming) {
-                    _stopExpansionTimer();
-                  },
-                  onAccept: (incoming) {},
-                ),
-              )
-            ],
-          );
+          return Stack(children: <Widget>[
+            child!,
+            Positioned.fill(
+              child: DragTarget<DragAndDropItem>(
+                builder: (context, candidateData, rejectedData) {
+                  if (candidateData.isNotEmpty) {}
+                  return Container();
+                },
+                onWillAccept: (incoming) {
+                  _startExpansionTimer();
+                  return false;
+                },
+                onLeave: (incoming) {
+                  _stopExpansionTimer();
+                },
+                onAccept: (incoming) {},
+              ),
+            )
+          ]);
         } else {
-          return child;
+          return child!;
         }
       },
     );
@@ -131,25 +128,25 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
   }
 
   List<Widget> _generateDragAndDropListInnerContents(
-      DragAndDropBuilderParameters params) {
-    var contents = List<Widget>();
-    if (children != null && children.isNotEmpty) {
-      for (int i = 0; i < children.length; i++) {
+      DragAndDropBuilderParameters parameters) {
+    var contents = <Widget>[];
+    if (children != null && children!.isNotEmpty) {
+      for (int i = 0; i < children!.length; i++) {
         contents.add(DragAndDropItemWrapper(
-          child: children[i],
-          parameters: params,
+          child: children![i],
+          parameters: parameters,
         ));
-        if (params.itemDivider != null && i < children.length - 1) {
-          contents.add(params.itemDivider);
+        if (parameters.itemDivider != null && i < children!.length - 1) {
+          contents.add(parameters.itemDivider!);
         }
       }
       contents.add(DragAndDropItemTarget(
         parent: this,
-        parameters: params,
-        onReorderOrAdd: params.onItemDropOnLastTarget,
+        parameters: parameters,
+        onReorderOrAdd: parameters.onItemDropOnLastTarget!,
         child: lastTarget ??
             Container(
-              height: params.lastItemTargetHeight,
+              height: parameters.lastItemTargetHeight,
             ),
       ));
     } else {
@@ -165,11 +162,11 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
       contents.add(
         DragAndDropItemTarget(
           parent: this,
-          parameters: params,
-          onReorderOrAdd: params.onItemDropOnLastTarget,
+          parameters: parameters,
+          onReorderOrAdd: parameters.onItemDropOnLastTarget!,
           child: lastTarget ??
               Container(
-                height: params.lastItemTargetHeight,
+                height: parameters.lastItemTargetHeight,
               ),
         ),
       );
@@ -189,7 +186,7 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
   collapse() {
     if (!isExpanded) {
       _expanded.value = false;
-      _expansionKey.currentState.collapse();
+      _expansionKey.currentState!.collapse();
     }
   }
 
@@ -197,20 +194,20 @@ class DragAndDropListExpansion implements DragAndDropListExpansionInterface {
   expand() {
     if (!isExpanded) {
       _expanded.value = true;
-      _expansionKey.currentState.expand();
+      _expansionKey.currentState!.expand();
     }
   }
 
   _onSetExpansion(bool expanded) {
     _expanded.value = expanded;
 
-    if (onExpansionChanged != null) onExpansionChanged(expanded);
+    if (onExpansionChanged != null) onExpansionChanged!(expanded);
   }
 
   @override
   get isExpanded => _expanded.value;
 
-  Timer _expansionTimer;
+  late Timer _expansionTimer;
 
   _startExpansionTimer() async {
     _expansionTimer = Timer(Duration(milliseconds: 400), _expansionCallback);

@@ -6,8 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class ExpansionTileExample extends StatefulWidget {
-  ExpansionTileExample({Key key, this.title}) : super(key: key);
-  final String title;
+  ExpansionTileExample({Key? key}) : super(key: key);
 
   @override
   _ListTileExample createState() => _ListTileExample();
@@ -16,11 +15,11 @@ class ExpansionTileExample extends StatefulWidget {
 class InnerList {
   final String name;
   List<String> children;
-  InnerList({this.name, this.children});
+  InnerList({required this.name, required this.children});
 }
 
 class _ListTileExample extends State<ExpansionTileExample> {
-  List<InnerList> _lists;
+  late List<InnerList> _lists;
 
   @override
   void initState() {
@@ -73,7 +72,7 @@ class _ListTileExample extends State<ExpansionTileExample> {
           (index) => _buildItem(innerList.children[index])),
       listKey: ObjectKey(innerList),
       trailing: Icon(Icons.add),
-      collapseTrailing: Text('${innerList?.children?.length ?? 0}'),
+      collapseTrailing: Text(innerList.children.length.toString()),
       initiallyExpanded: true
     );
   }
