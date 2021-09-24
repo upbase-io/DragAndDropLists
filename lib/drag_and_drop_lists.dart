@@ -592,7 +592,7 @@ class DragAndDropListsState extends State<DragAndDropLists> {
         // same list, so if the new position is after the old position, the removal of the old item must be taken into account
         newListIndex--;
       }
-      widget.onListReorder(reorderedListIndex, newListIndex);
+      widget.onListReorder!(reorderedListIndex, newListIndex);
     }
   }
 
@@ -652,7 +652,7 @@ class DragAndDropListsState extends State<DragAndDropLists> {
       widget.listTargetOnAccept!(newOrReordered, receiver);
 
     if (reorderedListIndex >= 0) {
-      widget.onListReorder(reorderedListIndex, widget.children.length - 1);
+      widget.onListReorder!(reorderedListIndex, widget.children.length - 1);
     } else {
       if (widget.onListAdd != null)
         widget.onListAdd!(newOrReordered, reorderedListIndex);
