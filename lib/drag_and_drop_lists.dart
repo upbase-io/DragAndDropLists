@@ -98,7 +98,7 @@ class DragAndDropLists extends StatefulWidget {
   /// Calls this function when a list is reordered.
   /// Takes into account the index change when removing a list, so the
   /// [newListIndex] can be used directly when inserting.
-  final OnListReorder onListReorder;
+  final OnListReorder? onListReorder;
 
   /// Calls this function when a new item has been added.
   final OnItemAdd? onItemAdd;
