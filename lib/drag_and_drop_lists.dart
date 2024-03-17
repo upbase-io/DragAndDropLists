@@ -281,6 +281,8 @@ class DragAndDropLists extends StatefulWidget {
   /// disable when setting customDragTargets
   final bool constrainDraggingAxis;
 
+  final bool enableSnap;
+
   final Function(int index)? onItemFocusChanged;
 
   DragAndDropLists({
@@ -333,6 +335,7 @@ class DragAndDropLists extends StatefulWidget {
     this.itemDragHandle,
     this.constrainDraggingAxis = true,
     Key? key,
+    this.enableSnap = false,
     this.onItemFocusChanged,
   }) : super(key: key) {
     if (listGhost == null &&
@@ -488,7 +491,7 @@ class DragAndDropListsState extends State<DragAndDropLists> {
 
   Widget _buildListView(DragAndDropBuilderParameters parameters,
       DragAndDropListTarget dragAndDropListTarget) {
-    if (widget.axis == Axis.vertical) {
+    if (widget.axis == Axis.vertical || widget.enableSnap == false) {
       return ListView(
         scrollDirection: widget.axis,
         controller: _scrollController,
@@ -502,9 +505,7 @@ class DragAndDropListsState extends State<DragAndDropLists> {
     return ScrollSnapList(
       scrollDirection: widget.axis,
       listController: _scrollController,
-      itemBuilder: (_, i) => Container(
-        child: items[i],
-      ),
+      itemBuilder: (_, i) => items[i],
       itemCount: items.length,
       itemSize: widget.listWidth,
       listViewPadding: const EdgeInsets.only(right: 30),
