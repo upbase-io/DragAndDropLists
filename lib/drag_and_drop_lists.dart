@@ -281,9 +281,10 @@ class DragAndDropLists extends StatefulWidget {
   /// disable when setting customDragTargets
   final bool constrainDraggingAxis;
 
-  final bool enableSnap;
+  final bool? enableSnap;
 
   final Function(int index)? onItemFocusChanged;
+  final PageController? pageController;
 
   DragAndDropLists({
     required this.children,
@@ -335,8 +336,9 @@ class DragAndDropLists extends StatefulWidget {
     this.itemDragHandle,
     this.constrainDraggingAxis = true,
     Key? key,
-    this.enableSnap = false,
+    this.enableSnap,
     this.onItemFocusChanged,
+    this.pageController,
   }) : super(key: key) {
     if (listGhost == null &&
         children.whereType<DragAndDropListExpansionInterface>().isNotEmpty)
@@ -368,6 +370,8 @@ class DragAndDropListsState extends State<DragAndDropLists> {
   bool _scrolling = false;
   final PageStorageBucket _pageStorageBucket = PageStorageBucket();
 
+  late final PageController pageController = widget.pageController ??
+      PageController(initialPage: 0, viewportFraction: 1);
   @override
   void initState() {
     if (widget.scrollController != null)
@@ -491,6 +495,8 @@ class DragAndDropListsState extends State<DragAndDropLists> {
 
   Widget _buildListView(DragAndDropBuilderParameters parameters,
       DragAndDropListTarget dragAndDropListTarget) {
+    final items = _buildOuterList(dragAndDropListTarget, parameters);
+
     if (widget.axis == Axis.vertical || widget.enableSnap == false) {
       return ListView(
         scrollDirection: widget.axis,
@@ -498,9 +504,14 @@ class DragAndDropListsState extends State<DragAndDropLists> {
         physics: const AlwaysScrollableScrollPhysics(),
         children: _buildOuterList(dragAndDropListTarget, parameters),
       );
+    } else if (widget.enableSnap == true) {
+      return PageView.builder(
+        controller: pageController,
+        scrollDirection: widget.axis,
+        onPageChanged: widget.onItemFocusChanged,
+        itemBuilder: (ct, index) => items[index],
+      );
     }
-
-    final items = _buildOuterList(dragAndDropListTarget, parameters);
 
     return ScrollSnapList(
       scrollDirection: widget.axis,
