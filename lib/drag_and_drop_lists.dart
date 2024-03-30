@@ -23,6 +23,7 @@ import 'package:drag_and_drop_lists/drag_and_drop_list_wrapper.dart';
 import 'package:drag_and_drop_lists/drag_handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 export 'package:drag_and_drop_lists/drag_and_drop_builder_parameters.dart';
@@ -285,6 +286,7 @@ class DragAndDropLists extends StatefulWidget {
 
   final Function(int index)? onItemFocusChanged;
   final PageController? pageController;
+  final Widget Function(int index)? headerBuilder;
 
   DragAndDropLists({
     required this.children,
@@ -339,6 +341,7 @@ class DragAndDropLists extends StatefulWidget {
     this.enableSnap,
     this.onItemFocusChanged,
     this.pageController,
+    this.headerBuilder,
   }) : super(key: key) {
     if (listGhost == null &&
         children.whereType<DragAndDropListExpansionInterface>().isNotEmpty)
@@ -509,7 +512,13 @@ class DragAndDropListsState extends State<DragAndDropLists> {
         controller: pageController,
         scrollDirection: widget.axis,
         onPageChanged: widget.onItemFocusChanged,
-        itemBuilder: (ct, index) => items[index],
+        itemBuilder: (ct, index) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (widget.headerBuilder != null) widget.headerBuilder!(index),
+            Expanded(child: items[index]),
+          ],
+        ),
       );
     }
 
