@@ -512,8 +512,10 @@ class DragAndDropListsState extends State<DragAndDropLists> {
         controller: pageController,
         scrollDirection: widget.axis,
         onPageChanged: widget.onItemFocusChanged,
+        itemCount: items.length,
         itemBuilder: (ct, index) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             if (widget.headerBuilder != null) widget.headerBuilder!(index),
             Expanded(child: items[index]),
@@ -547,6 +549,9 @@ class DragAndDropListsState extends State<DragAndDropLists> {
   }
 
   int _calculateChildrenCount(bool includeSeparators) {
+    if (widget.enableSnap == true) {
+      return widget.children.length;
+    }
     if (includeSeparators)
       return (widget.children.length * 2) -
           (widget.listDividerOnLastChild ? 0 : 1) +
