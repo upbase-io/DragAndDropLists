@@ -1,5 +1,5 @@
-import 'package:drag_and_drop_lists/drag_and_drop_list_interface.dart';
-import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
+import 'package:drop_list_internal/drag_and_drop_list_interface.dart';
+import 'package:drop_list_internal/drag_and_drop_lists.dart';
 import 'package:flutter/widgets.dart';
 
 typedef void OnPointerMove(PointerMoveEvent event);

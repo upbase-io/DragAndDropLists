@@ -1,4 +1,4 @@
-import 'package:drag_and_drop_lists/drag_and_drop_interface.dart';
+import 'package:drop_list_internal/drag_and_drop_interface.dart';
 import 'package:flutter/widgets.dart';
 
 class DragAndDropItem implements DragAndDropInterface {

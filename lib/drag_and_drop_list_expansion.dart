@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:drag_and_drop_lists/drag_and_drop_builder_parameters.dart';
-import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
-import 'package:drag_and_drop_lists/drag_and_drop_item_target.dart';
-import 'package:drag_and_drop_lists/drag_and_drop_item_wrapper.dart';
-import 'package:drag_and_drop_lists/drag_and_drop_list_interface.dart';
-import 'package:drag_and_drop_lists/programmatic_expansion_tile.dart';
+import 'package:drop_list_internal/drag_and_drop_builder_parameters.dart';
+import 'package:drop_list_internal/drag_and_drop_item.dart';
+import 'package:drop_list_internal/drag_and_drop_item_target.dart';
+import 'package:drop_list_internal/drag_and_drop_item_wrapper.dart';
+import 'package:drop_list_internal/drag_and_drop_list_interface.dart';
+import 'package:drop_list_internal/programmatic_expansion_tile.dart';
 import 'package:flutter/material.dart';
 
 typedef void OnExpansionChanged(bool expanded);

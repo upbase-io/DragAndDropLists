@@ -1,6 +1,6 @@
-import 'package:drag_and_drop_lists/drag_and_drop_builder_parameters.dart';
-import 'package:drag_and_drop_lists/drag_and_drop_interface.dart';
-import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
+import 'package:drop_list_internal/drag_and_drop_builder_parameters.dart';
+import 'package:drop_list_internal/drag_and_drop_interface.dart';
+import 'package:drop_list_internal/drag_and_drop_item.dart';
 import 'package:flutter/material.dart';
 
 abstract class DragAndDropListInterface implements DragAndDropInterface {

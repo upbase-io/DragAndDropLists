@@ -1,4 +1,4 @@
-import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
+import 'package:drop_list_internal/drag_and_drop_lists.dart';
 import 'package:example/navigation_drawer.dart' as navi;
 import 'package:flutter/material.dart';
 
